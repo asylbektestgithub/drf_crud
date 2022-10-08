@@ -43,3 +43,21 @@ def task_create_view(request):
 
     return Response({"Created": "Object is created !"})
 
+
+@api_view(['POST'])
+def task_update_view(request, id):
+    task = Task.objects.get(id=id)
+    serializer = TaskSerializer(instance=task, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def task_delete_view(request, id):
+    task = Task.objects.get(id=id)
+    task.delete()
+
+    return Response({"info":"Object is deleted"})
+
